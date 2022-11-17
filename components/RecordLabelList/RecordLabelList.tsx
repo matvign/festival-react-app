@@ -1,52 +1,26 @@
-import { MusicFestivals } from "server/types";
+import { MusicFestivals, BandFestivals, RecordLabelBandFestivals } from "server/types";
 
 type RecordLabelListProps = {
-  festivals: MusicFestivals[];
+  recordLabels: RecordLabelBandFestivals[];
 };
 
-type RecordLabel = Record<string, string[]>;
-type RecordLabelByFestival = Record<string, RecordLabel>;
-
-const getRecordLabels = (festivals: MusicFestivals[]) => {
-  const recordLabels: RecordLabelByFestival = {};
-
-  festivals.forEach((festival) => {
-    const { name: festivalName, bands } = festival;
-
-    bands.forEach((band) => {
-      const { name: bandName, recordLabel } = band;
-
-      if (recordLabel in recordLabels) {
-        if (bandName in recordLabels[recordLabel]) {
-          recordLabels[recordLabel][bandName].push(festivalName);
-        } else {
-          recordLabels[recordLabel][bandName] = [festivalName];
-        }
-      } else {
-        recordLabels[recordLabel] = { [bandName]: [festivalName] };
-      }
-    });
-  });
-
-  return recordLabels;
+type RecordLabelBandsProps = {
+  bands: BandFestivals[];
 };
 
-const RecordLabel = ({ recordLabel }: { recordLabel: RecordLabel }) => {
-  const sortedBandKeys = Object.keys(recordLabel).sort((a, b) => a.localeCompare(b));
-
+const RecordLabelBands = ({ bands }: RecordLabelBandsProps) => {
   return (
     <div style={{ marginLeft: 8 }}>
-      {sortedBandKeys.map((band) => {
-        const festivals = recordLabel[band];
-        const sortedFestivals = [...festivals].sort((a, b) => a.localeCompare(b));
+      {bands.map((band) => {
+        const { name, festivals } = band;
 
         return (
-          <div key={band} style={{ marginLeft: 8 }}>
-            <h3>{band}</h3>
+          <div key={name} style={{ marginLeft: 8 }}>
+            <h3>{name}</h3>
             <div style={{ marginLeft: 8 }}>
-              {sortedFestivals.map((festival) => (
-                <p key={festival}>{festival}</p>
-              ))}
+              {festivals.map((festivalName) => {
+                return <p key={festivalName}>{festivalName}</p>;
+              })}
             </div>
           </div>
         );
@@ -55,19 +29,16 @@ const RecordLabel = ({ recordLabel }: { recordLabel: RecordLabel }) => {
   );
 };
 
-export const RecordLabelList = ({ festivals }: RecordLabelListProps) => {
-  const recordLabelsByFestival = getRecordLabels(festivals);
-  const sortedRecordLabelKeys = Object.keys(recordLabelsByFestival).sort((a, b) => a.localeCompare(b));
-
+export const RecordLabelList = ({ recordLabels }: RecordLabelListProps) => {
   return (
     <div>
-      {sortedRecordLabelKeys.map((label) => {
-        const recordLabel = recordLabelsByFestival[label];
+      {recordLabels.map((recordLabel) => {
+        const { name, bands } = recordLabel;
 
         return (
-          <div key={label}>
-            <h2>{label}</h2>
-            <RecordLabel recordLabel={recordLabel} />
+          <div key={name}>
+            <h2>{name}</h2>
+            <RecordLabelBands bands={bands} />
           </div>
         );
       })}
