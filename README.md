@@ -12,23 +12,34 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## The Problem
+Your team is tasked with listing out music festival data in a particular manner: at the top level, it should show the band record label, below that it should list out all bands under their management, and below that it should display which festivals they've attended, if any. All entries should be sorted alphabetically.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+For example:
+```
+Record Label 1
+    Band X
+        Omega Festival
+    Band Y
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+Record Label 2
+    Band A
+        Alpha Festival
+        Beta Festival
+```
 
-## Learn More
+The data is provided to you via an API by another team; they assure you all the data is available but it's in a different format and provide you with the Swagger documentation needed to get started.
+Use this API as is to output the format specified above in any medium you desire; let it be a website, terminal, file or morse code if that's what you want to do - we just want to see the result somehow.
 
-To learn more about Next.js, take a look at the following resources:
+## Coding Test
+The task cannot be completed as the data that the API team has provided is incomplete.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+In the example above, `Band Y` wouldn't be in the response to begin with.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+The `festivals` endpoint lists out festivals that bands have attended, but won't show bands that haven't attended any festivals at all.
+Because of that, we wouldn't be able to list them out under their record label.
 
-## Deploy on Vercel
+A different endpoint would be needed to get the data that we need. Best to ask the API team if there are any other endpoints that will return the data to us.
+Preferably a complete solution without needed us to manually sort the results.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Nonetheless, if there's still interest, here's a solution for record labels and bands that have attended music festivals before. 
