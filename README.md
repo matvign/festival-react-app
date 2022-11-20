@@ -32,14 +32,31 @@ The data is provided to you via an API by another team; they assure you all the 
 Use this API as is to output the format specified above in any medium you desire; let it be a website, terminal, file or morse code if that's what you want to do - we just want to see the result somehow.
 
 ## Coding Test
-The task cannot be completed as the data that the API team has provided is incomplete.
+### Clearing up requirements
+The requirements of the task requires us to print out attendance to festivals from bands under their respective record labels.
+However, some bands will not be signed to a label and still perform at festivals.
 
-In the example above, `Band Y` wouldn't be in the response to begin with.
+In this case, best to ask the product manager/owner and get UX involved if available to know what we should display in this scenario. 
 
-The `festivals` endpoint lists out festivals that bands have attended, but won't show bands that haven't attended any festivals at all.
-Because of that, we wouldn't be able to list them out under their record label.
+In addition, we should also confirm what should be shown if there is no data at all.
 
-A different endpoint would be needed to get the data that we need. Best to ask the API team if there are any other endpoints that will return the data to us.
-Preferably a complete solution without needed us to manually sort the results.
+### Schemas and resources
+In the API documentation all models have their fields set to optional. This means that a `Band` can exist without a name, which is nonsensical. The documentation should be updated to reflect any required properties in the model.
 
-Nonetheless, if there's still interest, here's a solution for record labels and bands that have attended music festivals before. 
+In the responses that the API returns, a Band can have a record label field that is an empty string. If this is not intentional, then the response should be fixed and the documentation updated to indicate that strings have a minimum length.
+
+The festival endpoint returns festivals with an optional name field. This let's us list out record labels and their bands regardless of whether thay have attended any festivals.
+
+While this let's get the data we want, it also means that the `festival` resource may not be describing festivals and be describing bands instead.
+
+As all properties in the model are optional, festivals do not have names and let's us list out record labels and their bands regardless of whether they have attended any festivals.
+While this let's us organise the data, it also means that the `festival` resource doesn't always describe festivals and sometimes describes bands.
+
+It would be better to expose a separate endpoint that returns the sorted data instead of going through the festival endpoint.
+
+### API responses
+The responses returned by the API are inconsistent. Data entries would sometimes be missing, or returning a value that doesn't match the swagger documentation (namely an empty string).
+
+Contact the API team and let them know that the API doesn't consistently return all data in the correct format.
+
+Also worth noting is that they have exposed the `X-Powered-By` header in their responses (it's running on Express.js) and it should be removed.

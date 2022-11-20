@@ -1,47 +1,57 @@
-import { MusicFestivals, BandFestivals, RecordLabelBandFestivals } from "server/types";
+import { MusicFestivals, RecordLabelBandFestivals, BandFestivals } from "server/types";
+import styles from "./RecordLabelList.module.css";
 
 type RecordLabelListProps = {
-  recordLabels: RecordLabelBandFestivals[];
+  recordLabels?: RecordLabelBandFestivals[];
 };
 
 type RecordLabelBandsProps = {
+  recordLabelName: string;
   bands: BandFestivals[];
 };
 
-const RecordLabelBands = ({ bands }: RecordLabelBandsProps) => {
+export const RecordLabelBands = ({ recordLabelName, bands }: RecordLabelBandsProps) => {
   return (
-    <div style={{ marginLeft: 8 }}>
+    <ol aria-label={`Festival attendance from bands under ${recordLabelName}`}>
       {bands.map((band) => {
         const { name, festivals } = band;
 
         return (
-          <div key={name} style={{ marginLeft: 8 }}>
-            <h3>{name}</h3>
-            <div style={{ marginLeft: 8 }}>
-              {festivals.map((festivalName) => {
-                return <p key={festivalName}>{festivalName}</p>;
+          <li key={name} className={styles["list-style"]}>
+            {name}
+            <ol aria-label={`Festivals attended by ${name}`}>
+              {festivals.map((festival) => {
+                return (
+                  <li key={festival} className={styles["list-style"]}>
+                    {festival}
+                  </li>
+                );
               })}
-            </div>
-          </div>
+            </ol>
+          </li>
         );
       })}
-    </div>
+    </ol>
   );
 };
 
 export const RecordLabelList = ({ recordLabels }: RecordLabelListProps) => {
+  if (!recordLabels || !recordLabels.length) {
+    return <p>No data found!</p>;
+  }
+
   return (
-    <div>
+    <ol aria-label="Band festival attendance by record label">
       {recordLabels.map((recordLabel) => {
         const { name, bands } = recordLabel;
 
         return (
-          <div key={name}>
-            <h2>{name}</h2>
-            <RecordLabelBands bands={bands} />
-          </div>
+          <li key={name} className={styles["list-style"]}>
+            {name}
+            <RecordLabelBands recordLabelName={name} bands={bands} />
+          </li>
         );
       })}
-    </div>
+    </ol>
   );
 };

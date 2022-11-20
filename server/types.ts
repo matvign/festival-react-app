@@ -1,11 +1,11 @@
 export type Band = {
-  name: string;
-  recordLabel: string;
+  name?: string;
+  recordLabel?: string;
 };
 
 export type MusicFestivals = {
-  name: string;
-  bands: Band[];
+  name?: string;
+  bands?: Band[];
 };
 
 export type BandFestivals = {
