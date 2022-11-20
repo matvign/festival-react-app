@@ -1,5 +1,5 @@
 import { rest } from "msw";
-import { MusicFestivals } from "../types";
+import { MusicFestivals } from "../server/types";
 
 import { musicFestivals } from "./fixtures/musicFestivals";
 

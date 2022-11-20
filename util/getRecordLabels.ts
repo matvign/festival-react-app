@@ -23,7 +23,7 @@ const sortRecordLabelData = (recordLabels: RecordLabelByFestival) => {
 };
 
 // convert festivals data into data containing record labels and their bands' festival attendance
-export const getRecordLabels = (festivals: MusicFestivals[]) => {
+export const getRecordLabels = (festivals: MusicFestivals[] | string) => {
   const recordLabels: RecordLabelByFestival = {};
 
   // abort early if not an array
